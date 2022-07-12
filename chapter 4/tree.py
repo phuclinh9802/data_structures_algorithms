@@ -7,6 +7,7 @@ class Node:
         self.right = None
 
     def insert(self, data):
+        # check if tree is null
         if self.data:
             # check 2 conditions: self.data > data or < data
             if self.data > data:
