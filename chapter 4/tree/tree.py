@@ -84,6 +84,24 @@ class Node:
             root = root.left
         return d
 
+    def bfs_tree(self, root, res):
+        print('data: ',root.data)
+        if root is None:
+            return
+
+        if root.left or root.right:
+            if root.left:
+                res.append(root.left.data)
+            if root.right:
+                res.append(root.right.data)
+            if root.left:
+                res = self.bfs_tree(root.left, res)
+            if root.right:
+                res = self.bfs_tree(root.right, res)
+
+        return res
+
+
     # A Perfect Binary Tree: a tree that has both left and right children from every node from every level, and leaf nodes should be in the same level.
     # depth: O(ln(n)) where n is # of nodes
     # # of nodes: = 2^(h+1) - 1
@@ -146,6 +164,71 @@ class Height:
         self.height = 0
 
 
+def MinimalTree(array):
+    tree = Node(array[len(array) // 2])
+    for element in array:
+        tree.insert(element)
+
+    return tree
+
+# List of Depths - can do bfs
+class LLNode:
+    def __init__(self,data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def add(self, data):
+        node = LLNode(data)
+        node.next = self.head
+        self.head = node
+
+    def addToEnd(self, data):
+        node = LLNode(data)
+
+        if self.head is None:
+            node.next = self.head
+            self.head = node
+
+        current = self.head
+        while current.next:
+            current = current.next
+
+        node.next = current.next
+        current.next = node
+
+
+def createLevelLL(root, lists, level):
+    if root is None:
+        return
+
+    linked_list = None
+    if len(lists) == level: # if level is not contained in list
+        linked_list = LinkedList()
+        lists.append(linked_list)
+    else:
+        linked_list = lists[level]
+
+    linked_list.add(root)
+    createLevelLL(root.left, lists, level + 1)
+    createLevelLL(root.right, lists, level + 1)
+
+def list_of_depth(root):
+    lists = []
+    createLevelLL(root, lists, 0)
+    return lists
+
+array = [3,5,6,9,10,13]
+minimal_tree = MinimalTree(array)
+minimal_tree.print()
+print(minimal_tree.preorder(minimal_tree))
+print(minimal_tree.postorder(minimal_tree))
+print(minimal_tree.inorder(minimal_tree))
+
+
 
 # tree = Node(10)
 # tree.insert(3)
@@ -184,6 +267,19 @@ root.right = Node(3)
 root.left.left = Node(4)
 root.left.right = Node(5)
 root.left.right.left = Node(6)
+root.left.right.right = Node(7)
+root.right.left = Node(8)
+root.right.right = Node(9)
+lists = list_of_depth(root)
+
+for list in lists:
+    current = list.head
+    while current:
+        print(current.data.data)
+        current = current.next
+    print()
+
+
 
 if root.isBalancedBinaryTree(root, height):
     print('The tree is balanced')

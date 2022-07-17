@@ -5,6 +5,7 @@
 
 import collections
 
+
 def dfs(graph, root, visited=None):
     # first, we check if visited is none, then we create a new visited set
     if visited is None:
