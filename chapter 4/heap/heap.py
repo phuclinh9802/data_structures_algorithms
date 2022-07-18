@@ -66,8 +66,8 @@ class MinHeap:
     def heapify(self, i):
         if self.isLeaf(i):
             # check if parent > left or parent > right
-            if self.Heap[i] > self.left_child(i) or self.Heap[i] > self.right_child(i):
-                if self.left_child(i) > self.right_child(i):
+            if self.Heap[i] > self.Heap[self.left_child(i)] or self.Heap[i] > self.Heap[self.right_child(i)]:
+                if self.Heap[self.left_child(i)] > self.Heap[self.right_child(i)]:
                     self.swap(i, self.left_child(i))
                     self.heapify(self.left_child(i))
 
@@ -89,4 +89,6 @@ heap.insert(19)
 heap.insert(20)
 heap.insert(1)
 heap.min_heap()
+# heap.heapify(3)
+# print(heap.Heap)
 heap.print()
